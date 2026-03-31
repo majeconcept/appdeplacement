@@ -35,7 +35,7 @@ export default function RootLayout({
     <html lang="fr" className="h-full">
       <body className="h-full flex flex-col">
         <main
-          className="flex-1 overflow-y-auto scroll-ios"
+          className="flex-1 overflow-hidden"
           style={{ paddingBottom: "calc(83px + env(safe-area-inset-bottom, 0px))" }}
         >
           {children}

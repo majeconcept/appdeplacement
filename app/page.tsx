@@ -10,26 +10,21 @@ export default function TrackingPage() {
     useTracking(addTrip);
 
   return (
-    <div className="flex flex-col items-center justify-center px-5 gap-6"
-      style={{
-        /* viewport minus status bar, tab bar, Safari toolbar */
-        height: "calc(100dvh - 83px - env(safe-area-inset-bottom, 0px) - env(safe-area-inset-top, 0px))",
-      }}
-    >
-      {/* Title + Distance — grouped tight */}
-      <div className="flex flex-col items-center gap-1">
+    <div className="flex flex-col items-center justify-center h-full px-5 gap-5">
+      {/* Title + Distance */}
+      <div className="flex flex-col items-center">
         <h1
           className="text-lg font-semibold tracking-tight"
           style={{ color: "var(--text-primary)" }}
         >
           Mes Déplacements
         </h1>
-        <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
+        <p className="text-xs mt-0.5" style={{ color: "var(--text-secondary)" }}>
           {isTracking ? "Trajet en cours…" : "Prêt à démarrer"}
         </p>
 
         {isTracking && (
-          <div className="relative flex items-center justify-center w-6 h-6 mt-2">
+          <div className="relative flex items-center justify-center w-6 h-6 mt-3">
             <div
               className="absolute w-5 h-5 rounded-full pulse-ring"
               style={{ background: "rgba(52,199,89,0.3)" }}
@@ -39,9 +34,9 @@ export default function TrackingPage() {
         )}
 
         <div
-          className="font-bold tracking-tight tabular-nums mt-2"
+          className="font-bold tracking-tight tabular-nums mt-3"
           style={{
-            fontSize: "clamp(36px, 10vw, 52px)",
+            fontSize: 48,
             lineHeight: 1,
             color: isTracking ? "var(--ios-green)" : "var(--text-primary)",
             transition: "color 0.4s ease",
@@ -49,13 +44,13 @@ export default function TrackingPage() {
         >
           {distanceKm.toFixed(2)}
         </div>
-        <div className="text-sm font-semibold" style={{ color: "var(--text-secondary)" }}>
+        <div className="text-sm font-semibold mt-1" style={{ color: "var(--text-secondary)" }}>
           kilomètres
         </div>
 
         {isTracking && (
           <div
-            className="font-mono text-lg font-light tabular-nums mt-1"
+            className="font-mono text-lg font-light tabular-nums mt-2"
             style={{ color: "var(--text-secondary)" }}
           >
             {formatElapsed(elapsed)}
@@ -74,34 +69,32 @@ export default function TrackingPage() {
       )}
 
       {/* Start / Stop button */}
-      <div className="flex flex-col items-center gap-2">
-        <button
-          onClick={isTracking ? stop : start}
-          className="flex items-center justify-center rounded-full text-white transition-transform active:scale-95"
-          style={{
-            width: "clamp(90px, 24vw, 120px)",
-            height: "clamp(90px, 24vw, 120px)",
-            background: isTracking ? "var(--ios-red)" : "var(--ios-green)",
-            boxShadow: isTracking
-              ? "0 6px 24px rgba(255,59,48,0.35)"
-              : "0 6px 24px rgba(52,199,89,0.35)",
-          }}
-          aria-label={isTracking ? "Arrêter le trajet" : "Démarrer le trajet"}
-        >
-          {isTracking ? (
-            <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
-              <rect x="9" y="9" width="18" height="18" rx="3" fill="white" />
-            </svg>
-          ) : (
-            <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
-              <path d="M13 9l18 9-18 9V9z" fill="white" />
-            </svg>
-          )}
-        </button>
-        <p className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>
-          {isTracking ? "Appuyez pour arrêter" : "Appuyez pour démarrer"}
-        </p>
-      </div>
+      <button
+        onClick={isTracking ? stop : start}
+        className="flex items-center justify-center rounded-full text-white transition-transform active:scale-95"
+        style={{
+          width: 100,
+          height: 100,
+          background: isTracking ? "var(--ios-red)" : "var(--ios-green)",
+          boxShadow: isTracking
+            ? "0 6px 24px rgba(255,59,48,0.35)"
+            : "0 6px 24px rgba(52,199,89,0.35)",
+        }}
+        aria-label={isTracking ? "Arrêter le trajet" : "Démarrer le trajet"}
+      >
+        {isTracking ? (
+          <svg width="24" height="24" viewBox="0 0 36 36" fill="none">
+            <rect x="9" y="9" width="18" height="18" rx="3" fill="white" />
+          </svg>
+        ) : (
+          <svg width="24" height="24" viewBox="0 0 36 36" fill="none">
+            <path d="M13 9l18 9-18 9V9z" fill="white" />
+          </svg>
+        )}
+      </button>
+      <p className="text-xs font-medium -mt-3" style={{ color: "var(--text-secondary)" }}>
+        {isTracking ? "Appuyez pour arrêter" : "Appuyez pour démarrer"}
+      </p>
     </div>
   );
 }
