@@ -10,12 +10,9 @@ export default function TrackingPage() {
     useTracking(addTrip);
 
   return (
-    <div
-      className="flex flex-col items-center justify-between px-6 min-h-screen"
-      style={{ paddingTop: "calc(env(safe-area-inset-top, 20px) + 20px)" }}
-    >
+    <div className="flex flex-col items-center px-6 h-full">
       {/* Header */}
-      <div className="w-full text-center pt-4">
+      <div className="w-full text-center pt-6 pb-2">
         <h1
           className="text-2xl font-semibold tracking-tight"
           style={{ color: "var(--text-primary)" }}
@@ -27,13 +24,13 @@ export default function TrackingPage() {
         </p>
       </div>
 
-      {/* Main area */}
-      <div className="flex flex-col items-center gap-10 flex-1 justify-center w-full">
+      {/* Distance display */}
+      <div className="flex flex-col items-center justify-center gap-2 pt-6">
         {/* GPS pulse indicator */}
         {isTracking && (
-          <div className="relative flex items-center justify-center w-12 h-12">
+          <div className="relative flex items-center justify-center w-10 h-10 mb-2">
             <div
-              className="absolute w-10 h-10 rounded-full pulse-ring"
+              className="absolute w-8 h-8 rounded-full pulse-ring"
               style={{ background: "rgba(52,199,89,0.3)" }}
             />
             <div
@@ -43,31 +40,28 @@ export default function TrackingPage() {
           </div>
         )}
 
-        {/* Distance display */}
-        <div className="text-center">
-          <div
-            className="font-bold tracking-tight tabular-nums"
-            style={{
-              fontSize: 72,
-              lineHeight: 1,
-              color: isTracking ? "var(--ios-green)" : "var(--text-primary)",
-              transition: "color 0.4s ease",
-            }}
-          >
-            {distanceKm.toFixed(2)}
-          </div>
-          <div
-            className="text-2xl font-semibold mt-2"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            kilomètres
-          </div>
+        <div
+          className="font-bold tracking-tight tabular-nums"
+          style={{
+            fontSize: 64,
+            lineHeight: 1,
+            color: isTracking ? "var(--ios-green)" : "var(--text-primary)",
+            transition: "color 0.4s ease",
+          }}
+        >
+          {distanceKm.toFixed(2)}
+        </div>
+        <div
+          className="text-xl font-semibold"
+          style={{ color: "var(--text-secondary)" }}
+        >
+          kilomètres
         </div>
 
         {/* Timer */}
         {isTracking && (
           <div
-            className="font-mono text-3xl font-light tabular-nums"
+            className="font-mono text-2xl font-light tabular-nums mt-2"
             style={{ color: "var(--text-secondary)" }}
           >
             {formatElapsed(elapsed)}
@@ -77,7 +71,7 @@ export default function TrackingPage() {
         {/* Error */}
         {error && (
           <div
-            className="ios-card px-4 py-3 text-sm text-center max-w-xs"
+            className="ios-card px-4 py-3 text-sm text-center max-w-xs mt-2"
             style={{ color: "var(--ios-red)", background: "rgba(255,59,48,0.08)" }}
           >
             {error}
@@ -85,14 +79,14 @@ export default function TrackingPage() {
         )}
       </div>
 
-      {/* Start / Stop button */}
-      <div className="flex flex-col items-center gap-4 pb-10 w-full">
+      {/* Start / Stop button — centered in remaining space */}
+      <div className="flex-1 flex flex-col items-center justify-center w-full">
         <button
           onClick={isTracking ? stop : start}
           className="relative flex items-center justify-center rounded-full font-semibold text-white text-lg transition-transform active:scale-95"
           style={{
-            width: 160,
-            height: 160,
+            width: 140,
+            height: 140,
             background: isTracking ? "var(--ios-red)" : "var(--ios-green)",
             boxShadow: isTracking
               ? "0 8px 32px rgba(255,59,48,0.35)"
@@ -111,7 +105,7 @@ export default function TrackingPage() {
           )}
         </button>
         <p
-          className="text-sm font-medium"
+          className="text-sm font-medium mt-3"
           style={{ color: "var(--text-secondary)" }}
         >
           {isTracking ? "Appuyez pour arrêter" : "Appuyez pour démarrer"}
