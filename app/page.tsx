@@ -1,18 +1,35 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTrips } from "@/hooks/useTrips";
 import { useTracking } from "@/hooks/useTracking";
 import { formatElapsed } from "@/lib/format";
+
+const TAB_BAR_HEIGHT = 83;
+
+function useAvailableHeight() {
+  const [h, setH] = useState<number | null>(null);
+
+  useEffect(() => {
+    const update = () => setH(window.innerHeight - TAB_BAR_HEIGHT);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  return h;
+}
 
 export default function TrackingPage() {
   const { addTrip } = useTrips();
   const { isTracking, distanceKm, elapsed, error, start, stop } =
     useTracking(addTrip);
+  const availableHeight = useAvailableHeight();
 
   return (
     <div
       className="flex flex-col items-center justify-center px-5 gap-5 overflow-hidden"
-      style={{ height: "100svh", paddingBottom: 90 }}
+      style={{ height: availableHeight ? `${availableHeight}px` : "100vh" }}
     >
       {/* Title + Distance */}
       <div className="flex flex-col items-center">
@@ -61,7 +78,6 @@ export default function TrackingPage() {
         )}
       </div>
 
-      {/* Error */}
       {error && (
         <div
           className="ios-card px-3 py-2 text-xs text-center max-w-[260px]"
