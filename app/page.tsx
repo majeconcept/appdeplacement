@@ -1,38 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useTrips } from "@/hooks/useTrips";
 import { useTracking } from "@/hooks/useTracking";
 import { formatElapsed } from "@/lib/format";
-
-const TAB_BAR_HEIGHT = 83;
-
-function useAvailableHeight() {
-  const [h, setH] = useState<number | null>(null);
-
-  useEffect(() => {
-    const update = () => setH(window.innerHeight - TAB_BAR_HEIGHT);
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-
-  return h;
-}
 
 export default function TrackingPage() {
   const { addTrip } = useTrips();
   const { isTracking, distanceKm, elapsed, error, start, stop } =
     useTracking(addTrip);
-  const availableHeight = useAvailableHeight();
 
   return (
-    <div
-      className="flex flex-col items-center justify-center px-5 gap-5 overflow-hidden"
-      style={{ height: availableHeight ? `${availableHeight}px` : "100vh" }}
-    >
-      {/* Title + Distance */}
-      <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center pt-10 px-5 gap-6">
+      {/* Title */}
+      <div className="text-center">
         <h1
           className="text-lg font-semibold tracking-tight"
           style={{ color: "var(--text-primary)" }}
@@ -42,19 +22,23 @@ export default function TrackingPage() {
         <p className="text-xs mt-0.5" style={{ color: "var(--text-secondary)" }}>
           {isTracking ? "Trajet en cours…" : "Prêt à démarrer"}
         </p>
+      </div>
 
-        {isTracking && (
-          <div className="relative flex items-center justify-center w-6 h-6 mt-3">
-            <div
-              className="absolute w-5 h-5 rounded-full pulse-ring"
-              style={{ background: "rgba(52,199,89,0.3)" }}
-            />
-            <div className="w-2 h-2 rounded-full" style={{ background: "var(--ios-green)" }} />
-          </div>
-        )}
+      {/* GPS pulse */}
+      {isTracking && (
+        <div className="relative flex items-center justify-center w-6 h-6">
+          <div
+            className="absolute w-5 h-5 rounded-full pulse-ring"
+            style={{ background: "rgba(52,199,89,0.3)" }}
+          />
+          <div className="w-2 h-2 rounded-full" style={{ background: "var(--ios-green)" }} />
+        </div>
+      )}
 
+      {/* Distance */}
+      <div className="text-center">
         <div
-          className="font-bold tracking-tight tabular-nums mt-3"
+          className="font-bold tracking-tight tabular-nums"
           style={{
             fontSize: 48,
             lineHeight: 1,
@@ -67,17 +51,19 @@ export default function TrackingPage() {
         <div className="text-sm font-semibold mt-1" style={{ color: "var(--text-secondary)" }}>
           kilomètres
         </div>
-
-        {isTracking && (
-          <div
-            className="font-mono text-lg font-light tabular-nums mt-2"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            {formatElapsed(elapsed)}
-          </div>
-        )}
       </div>
 
+      {/* Timer */}
+      {isTracking && (
+        <div
+          className="font-mono text-lg font-light tabular-nums"
+          style={{ color: "var(--text-secondary)" }}
+        >
+          {formatElapsed(elapsed)}
+        </div>
+      )}
+
+      {/* Error */}
       {error && (
         <div
           className="ios-card px-3 py-2 text-xs text-center max-w-[260px]"
@@ -90,7 +76,7 @@ export default function TrackingPage() {
       {/* Start / Stop button */}
       <button
         onClick={isTracking ? stop : start}
-        className="flex items-center justify-center rounded-full text-white transition-transform active:scale-95"
+        className="flex items-center justify-center rounded-full text-white transition-transform active:scale-95 mt-2"
         style={{
           width: 100,
           height: 100,
@@ -111,7 +97,7 @@ export default function TrackingPage() {
           </svg>
         )}
       </button>
-      <p className="text-xs font-medium -mt-3" style={{ color: "var(--text-secondary)" }}>
+      <p className="text-xs font-medium -mt-4" style={{ color: "var(--text-secondary)" }}>
         {isTracking ? "Appuyez pour arrêter" : "Appuyez pour démarrer"}
       </p>
     </div>
