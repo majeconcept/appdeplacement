@@ -10,7 +10,10 @@ export default function TrackingPage() {
     useTracking(addTrip);
 
   return (
-    <div className="flex flex-col items-center justify-center h-full px-5 gap-5">
+    <div
+      className="flex flex-col items-center justify-center px-5 gap-5 overflow-hidden"
+      style={{ height: "100svh", paddingBottom: 90 }}
+    >
       {/* Title + Distance */}
       <div className="flex flex-col items-center">
         <h1
