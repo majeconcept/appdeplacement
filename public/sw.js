@@ -1,5 +1,12 @@
-const CACHE = "deplacement-v1";
-const PRECACHE = ["/", "/trips", "/stats", "/settings", "/manifest.json"];
+const CACHE = "deplacement-v2";
+const BASE = "/appdeplacement";
+const PRECACHE = [
+  BASE + "/",
+  BASE + "/trips",
+  BASE + "/stats",
+  BASE + "/settings",
+  BASE + "/manifest.json",
+];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(
